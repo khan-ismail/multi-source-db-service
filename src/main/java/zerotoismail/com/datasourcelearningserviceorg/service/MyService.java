@@ -12,15 +12,31 @@ import java.util.List;
 @Service
 public class MyService {
 
-    private final DataSourceConfig dataSourceConfig;
+//    private final DataSourceConfig dataSourceConfig;
+//
+//    public MyService(DataSourceConfig dataSourceConfig) {
+//        this.dataSourceConfig = dataSourceConfig;
+//    }
+//
+//    public List<User> executeQueryForTenant(Long tenantId) {
+//        DataSource dataSource = dataSourceConfig.createNewDynamicDataSource(tenantId);
+//        JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+//        String sql = "SELECT * FROM User";
+//        return jdbcTemplate.query(sql, (rs, rowNum) -> {
+//            User user = new User();
+//            user.setId(rs.getLong("id"));
+//            user.setName(rs.getString("name"));
+//            return user;
+//        });
+//    }
 
-    public MyService(DataSourceConfig dataSourceConfig) {
-        this.dataSourceConfig = dataSourceConfig;
+    private final JdbcTemplate jdbcTemplate;
+
+    public MyService(DataSource dataSource) {
+        this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
     public List<User> executeQueryForTenant(Long tenantId) {
-        DataSource dataSource = dataSourceConfig.createNewDynamicDataSource(tenantId);
-        JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
         String sql = "SELECT * FROM User";
         return jdbcTemplate.query(sql, (rs, rowNum) -> {
             User user = new User();

@@ -9,6 +9,7 @@ import lombok.*;
 @NoArgsConstructor
 @ToString
 public class MySQLConnectionDetails {
+    private String tenantId;
     private String username;
     private String password;
     private String connectionString;
@@ -20,6 +21,14 @@ public class MySQLConnectionDetails {
         } catch (Exception e) {
             throw new RuntimeException("Failed to parse MySQL connection details", e);
         }
+    }
+
+    public String getTenantId() {
+        return tenantId;
+    }
+
+    public void setTenantId(String tenantId) {
+        this.tenantId = tenantId;
     }
 
     public String getUsername() {

@@ -20,3 +20,7 @@ spring:
       idle-timeout: 30000
       connection-timeout: 20000
       leak-detection-threshold: 15000
+
+jwt:
+  secret: "u0z/UXB0qGYQ5sG84MY2nCDX/3BmNuKcVa6IfZ+jfGE="
+  expiration-time: 86400000
