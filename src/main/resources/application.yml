@@ -1,0 +1,22 @@
+spring:
+  application:
+    name: "DataSourceLearningService"
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true
+    show-sql: true
+  datasource:
+    url: jdbc:mysql://localhost:3306/tenant
+    username: root
+    password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      max-lifetime: 1800000
+      maximum-pool-size: 10
+      minimum-idle: 5
+      idle-timeout: 30000
+      connection-timeout: 20000
+      leak-detection-threshold: 15000
