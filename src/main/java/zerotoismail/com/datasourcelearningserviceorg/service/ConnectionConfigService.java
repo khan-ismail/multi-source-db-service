@@ -30,18 +30,4 @@ public class ConnectionConfigService {
 
         return MySQLConnectionDetails.fromJson(mysqlJson);
     }
-
-    public List<MySQLConnectionDetails> getAllTenantConnections() {
-        List<ConnectionConfig> config = repository.findAll();
-        List<MySQLConnectionDetails> connectionDetails = new ArrayList<>();
-
-        for(ConnectionConfig c : config) {
-            String mysqlJson = c.getMysql();
-            if (mysqlJson == null) {
-                throw new ResourcesNotFoundException("My Sql Connection Details", "connectionProperties", "No Configuration");
-            }
-            connectionDetails.add(MySQLConnectionDetails.fromJson(mysqlJson));
-        }
-        return connectionDetails;
-    }
 }
