@@ -45,7 +45,10 @@ public class QueryController {
 
 
     @GetMapping("/state")
-    public ResponseEntity<?> getCurrentState(@RequestHeader("Authorization") String authorizationHeader, @RequestParam(required = false) String paramTenantId) {
+    public ResponseEntity<?> getCurrentState(@RequestHeader("Authorization") String authorizationHeader,
+                                             @RequestParam(required = false)
+                                             String paramTenantId) {
+
         String tokenFromAuth = jwtProvider.getTenantIdFromJwt(authorizationHeader);
         String tenantId = tokenFromAuth != null ? tokenFromAuth : paramTenantId;
         Object currentState = queryBuilderService.getConfiguration(tenantId);
@@ -55,7 +58,9 @@ public class QueryController {
 
 
     @PutMapping("/state")
-    public ResponseEntity<?> updateCurrentState(@RequestHeader("Authorization") String authorizationHeader, @RequestBody CurrentState currentState, @RequestParam(required = false) String paramTenantId) {
+    public ResponseEntity<?> updateCurrentState(@RequestHeader("Authorization") String authorizationHeader,
+                                                @RequestBody CurrentState currentState,
+                                                @RequestParam(required = false) String paramTenantId) {
 
         String tokenFromAuth = jwtProvider.getTenantIdFromJwt(authorizationHeader);
         String tenantId = tokenFromAuth != null ? tokenFromAuth : paramTenantId;
