@@ -43,14 +43,25 @@ public class JwtProvider {
                 .getSubject();
     }
 
-    public String generateJwtToken(String tenantId) {
+    public String generateJwtToken(String tenantId, String role) {
         return Jwts.builder()
                 .subject(tenantId)
+                .subject(role)
                 .issuedAt(new Date())
                 .expiration(new Date((new Date()).getTime() + expirationTime))
                 .signWith(getSigningKey())
                 .compact();
 
+    }
+
+    public String getRoleFromJwt(String token) {
+        token = token.replace("Bearer ", "");
+        return Jwts.parser()
+                .verifyWith(getSigningKey())
+                .build()
+                .parseSignedClaims(token)
+                .getPayload()
+                .get("role", String.class);
     }
 
     public boolean validateJwtToken(String authToken) {
