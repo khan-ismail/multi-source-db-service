@@ -1,4 +1,4 @@
-package zerotoismail.com.datasourcelearningserviceorg.config;
+package zerotoismail.com.datasourcelearningserviceorg.config.datasource;
 
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.orm.jpa.EntityManagerFactoryBuilder;
@@ -21,7 +21,8 @@ import javax.sql.DataSource;
 public class TenantDataSourceConfig {
 
     @Bean(name = "tenantEntityManagerFactory")
-    public LocalContainerEntityManagerFactoryBean tenantEntityManagerFactory(EntityManagerFactoryBuilder builder, @Qualifier("tenantDataSource") DataSource dataSource) {
+    public LocalContainerEntityManagerFactoryBean tenantEntityManagerFactory(
+            EntityManagerFactoryBuilder builder, @Qualifier("tenantRoutingDataSource") DataSource dataSource) {
         return builder
                 .dataSource(dataSource)
                 .packages("zerotoismail.com.datasourcelearningserviceorg.model")
@@ -35,7 +36,8 @@ public class TenantDataSourceConfig {
         return new JpaTransactionManager(tenantEntityManagerFactory.getObject());
     }
     @Bean
-    public JdbcTemplate jdbcTemplate(@Qualifier("tenantDataSource") DataSource dataSource) {
+    public JdbcTemplate jdbcTemplate(@Qualifier("tenantRoutingDataSource") DataSource dataSource) {
+        System.out.println("Initializing JDBC Template");
         return new JdbcTemplate(dataSource);
     }
 }

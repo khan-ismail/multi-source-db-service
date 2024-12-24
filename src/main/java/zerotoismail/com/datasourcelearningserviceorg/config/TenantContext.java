@@ -1,5 +1,4 @@
 package zerotoismail.com.datasourcelearningserviceorg.config;
-
 public class TenantContext {
 
     private static final ThreadLocal<Long> currentTenant = new ThreadLocal<>();
@@ -16,3 +15,4 @@ public class TenantContext {
         currentTenant.remove();
     }
 }
+

@@ -1,4 +1,4 @@
-package zerotoismail.com.datasourcelearningserviceorg.config;
+package zerotoismail.com.datasourcelearningserviceorg.config.datasource;
 
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.orm.jpa.EntityManagerFactoryBuilder;
@@ -23,7 +23,7 @@ public class PrimaryDataSourceConfig {
     @Bean
     @Primary
     public LocalContainerEntityManagerFactoryBean primaryEntityManagerFactory(
-            EntityManagerFactoryBuilder builder, DataSource dataSource) {
+            EntityManagerFactoryBuilder builder, @Qualifier("primaryDataSource") DataSource dataSource) {
         return builder
                 .dataSource(dataSource)
                 .packages("zerotoismail.com.datasourcelearningserviceorg.model")
@@ -31,8 +31,8 @@ public class PrimaryDataSourceConfig {
                 .build();
     }
 
-    @Primary
     @Bean(name = "primaryTransactionManager")
+    @Primary
     public PlatformTransactionManager primaryTransactionManager(
             @Qualifier("primaryEntityManagerFactory") LocalContainerEntityManagerFactoryBean primaryEntityManagerFactory) {
         return new JpaTransactionManager(primaryEntityManagerFactory.getObject());

@@ -1,5 +1,4 @@
 package zerotoismail.com.datasourcelearningserviceorg.config;
-
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource;
@@ -9,7 +8,6 @@ import zerotoismail.com.datasourcelearningserviceorg.service.ConnectionConfigSer
 
 import javax.sql.DataSource;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 public class TenantRoutingDataSource extends AbstractRoutingDataSource {
 
@@ -26,25 +24,25 @@ public class TenantRoutingDataSource extends AbstractRoutingDataSource {
         return TenantContext.getCurrentTenant();
     }
 
-//    @Override
-//    protected DataSource resolveSpecifiedDataSource(Object dataSourceObject) throws IllegalArgumentException {
-//        Long tenantId = (Long) dataSourceObject;
-//        return dataSourceMap.computeIfAbsent(tenantId, id -> {
-//            MySQLConnectionDetails connection = connectionService.getTenantConnection(id);
-//            if (connection == null) {
-//                throw new ResourcesNotFoundException("Tenant Id", "tenantId", id + "");
-//            }
-//            HikariConfig config = new HikariConfig();
-//            config.setJdbcUrl(connection.getConnectionString());
-//            config.setUsername(connection.getUsername());
-//            config.setPassword(connection.getPassword());
-//            config.setDriverClassName("com.mysql.cj.jdbc.Driver");
-//            config.setMaximumPoolSize(10);
-//            config.setMinimumIdle(2);
-//            config.setIdleTimeout(300000);
-//            config.setMaxLifetime(1800000);
-//            config.setConnectionTimeout(30000);
-//            return new HikariDataSource(config);
-//        });
-//    }
+    @Override
+    protected DataSource determineTargetDataSource() {
+        Long tenantId = (Long) determineCurrentLookupKey();
+        return dataSourceMap.computeIfAbsent(tenantId, id -> {
+            MySQLConnectionDetails connection = connectionService.getTenantConnection(id);
+            if (connection == null) {
+                throw new ResourcesNotFoundException("Tenant Id", "tenantId", id + "");
+            }
+            HikariConfig config = new HikariConfig();
+            config.setJdbcUrl(connection.getConnectionString());
+            config.setUsername(connection.getUsername());
+            config.setPassword(connection.getPassword());
+            config.setDriverClassName("com.mysql.cj.jdbc.Driver");
+            config.setMaximumPoolSize(10);
+            config.setMinimumIdle(2);
+            config.setIdleTimeout(300000);
+            config.setMaxLifetime(1800000);
+            config.setConnectionTimeout(30000);
+            return new HikariDataSource(config);
+        });
+    }
 }
