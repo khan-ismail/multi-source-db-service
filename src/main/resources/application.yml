@@ -9,9 +9,6 @@ spring:
         format_sql: true
     show-sql: true
   datasource:
-#    url: jdbc:mysql://localhost:3306/tenant
-#    username: root
-#    password: root
     url: jdbc:mysql://zerotoismail.com:3306/tenant
     username: user
     password: User@1234!
