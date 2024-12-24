@@ -12,6 +12,7 @@ import zerotoismail.com.datasourcelearningserviceorg.service.QueryBuilderService
 import zerotoismail.com.datasourcelearningserviceorg.utils.QueryUtils;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/v1/queries")
@@ -27,24 +28,15 @@ public class QueryController {
 
     @PostMapping("/run")
     public ResponseEntity<?> runQuery(@RequestBody QueryRequestDto queryDto) {
-        try {
+        String query = queryDto.getQuery();
 
-            String query = queryDto.getQuery();
-
-            if (!QueryUtils.validateQuery(query)) {
-                return ResponseEntity
-                        .status(HttpStatus.BAD_REQUEST)
-                        .body(new ResponseDto(HttpStatus.BAD_REQUEST.toString(), "Only SELECT queries are allowed."));
-            }
-
-            List<User> result = queryBuilderService.executeQueryForTenant(query);
-            return ResponseEntity.ok(result);
-
-
-        } catch (Exception e) {
+        if (!QueryUtils.validateQuery(query)) {
             return ResponseEntity
                     .status(HttpStatus.BAD_REQUEST)
-                    .body(new ResponseDto(HttpStatus.BAD_REQUEST.toString(), "Bad Request"));
+                    .body(new ResponseDto(HttpStatus.BAD_REQUEST.toString(), "Only SELECT queries are allowed."));
         }
+
+        List<Map<String, Object>> result = queryBuilderService.executeQueryForTenant(query);
+        return ResponseEntity.ok(result);
     }
 }

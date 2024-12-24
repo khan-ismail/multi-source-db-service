@@ -7,6 +7,7 @@ import zerotoismail.com.datasourcelearningserviceorg.dto.User;
 
 import javax.sql.DataSource;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class QueryBuilderService {
@@ -17,13 +18,7 @@ public class QueryBuilderService {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
-    public List<User> executeQueryForTenant(String query) {
-        System.out.println("Executing query for tenant " + jdbcTemplate);
-        return jdbcTemplate.query(query, (rs, rowNum) -> {
-            User user = new User();
-            user.setId(rs.getLong("id"));
-            user.setName(rs.getString("name"));
-            return user;
-        });
+    public List<Map<String, Object>> executeQueryForTenant(String query) {
+        return jdbcTemplate.queryForList(query);
     }
 }

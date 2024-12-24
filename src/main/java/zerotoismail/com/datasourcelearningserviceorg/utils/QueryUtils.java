@@ -11,12 +11,9 @@ public class QueryUtils {
     public static boolean validateQuery(String query) {
         try {
             Statement statement = CCJSqlParserUtil.parse(query);
-            if (statement instanceof Select) {
-                return true;
-            }
-            throw new QueryNotAllowedException("Query not allowed, Only SELECT queries are permitted: ");
+            return statement instanceof Select;
         } catch (Exception e) {
-            throw new RuntimeException("Syntax Invalid SQL query: " + e.getMessage());
+            throw new QueryNotAllowedException("Invalid query, Only SELECT queries are permitted: " + e.getMessage());
         }
     }
 }

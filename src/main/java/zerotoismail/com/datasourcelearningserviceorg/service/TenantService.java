@@ -17,7 +17,6 @@ public class TenantService {
         this.connectionConfigRepository = connectionConfigRepository;
     }
 
-
     public List<String> getAllTenantIds() {
         List<String> tenantIds = new ArrayList<>();
         try{
