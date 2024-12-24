@@ -7,10 +7,12 @@ import org.springframework.web.bind.annotation.*;
 import zerotoismail.com.datasourcelearningserviceorg.dto.QueryRequestDto;
 import zerotoismail.com.datasourcelearningserviceorg.dto.ResponseDto;
 import zerotoismail.com.datasourcelearningserviceorg.dto.User;
+import zerotoismail.com.datasourcelearningserviceorg.multiTenancy.model.CurrentState;
 import zerotoismail.com.datasourcelearningserviceorg.security.JwtProvider;
 import zerotoismail.com.datasourcelearningserviceorg.service.QueryBuilderService;
 import zerotoismail.com.datasourcelearningserviceorg.utils.QueryUtils;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -37,6 +39,36 @@ public class QueryController {
         }
 
         List<Map<String, Object>> result = queryBuilderService.executeQueryForTenant(query);
-        return ResponseEntity.ok(result);
+
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+
+    @GetMapping("/state")
+    public ResponseEntity<?> getCurrentState(@RequestHeader("Authorization") String authorizationHeader, @RequestParam(required = false) String paramTenantId) {
+        String tokenFromAuth = jwtProvider.getTenantIdFromJwt(authorizationHeader);
+        String tenantId = tokenFromAuth != null ? tokenFromAuth : paramTenantId;
+        Object currentState = queryBuilderService.getConfiguration(tenantId);
+
+        return new ResponseEntity<>(Map.of("data", currentState), HttpStatus.OK);
+    }
+
+
+    @PutMapping("/state")
+    public ResponseEntity<?> updateCurrentState(@RequestHeader("Authorization") String authorizationHeader, @RequestBody CurrentState currentState, @RequestParam(required = false) String paramTenantId) {
+
+        String tokenFromAuth = jwtProvider.getTenantIdFromJwt(authorizationHeader);
+        String tenantId = tokenFromAuth != null ? tokenFromAuth : paramTenantId;
+
+        if (tenantId == null) {
+            return ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .body(new ResponseDto(HttpStatus.BAD_REQUEST.toString(), "tenantId is required"));
+        }
+
+        currentState.setTenantId(tenantId);
+        CurrentState currentState1 = queryBuilderService.saveCurrentState(currentState);
+
+        return new ResponseEntity<>(Map.of("data", currentState), HttpStatus.OK);
     }
 }

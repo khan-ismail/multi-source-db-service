@@ -1,15 +1,13 @@
 package zerotoismail.com.datasourcelearningserviceorg.multiTenancy.model;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import lombok.Getter;
-import lombok.Setter;
 
-@Getter
-@Setter
-@Entity
+@Entity(name = "current_state")
 public class CurrentState {
     @Id
+    @Column(name="tenant_id")
     private String tenantId;
     private String data;
 
