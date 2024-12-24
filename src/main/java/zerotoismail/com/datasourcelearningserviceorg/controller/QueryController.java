@@ -50,7 +50,7 @@ public class QueryController {
         String tenantId = tokenFromAuth != null ? tokenFromAuth : paramTenantId;
         Object currentState = queryBuilderService.getConfiguration(tenantId);
 
-        return new ResponseEntity<>(Map.of("data", currentState), HttpStatus.OK);
+        return new ResponseEntity<>(Map.of("current_state", currentState), HttpStatus.OK);
     }
 
 
@@ -69,6 +69,6 @@ public class QueryController {
         currentState.setTenantId(tenantId);
         CurrentState currentState1 = queryBuilderService.saveCurrentState(currentState);
 
-        return new ResponseEntity<>(Map.of("data", currentState), HttpStatus.OK);
+        return new ResponseEntity<>(Map.of("current_state", currentState), HttpStatus.OK);
     }
 }
