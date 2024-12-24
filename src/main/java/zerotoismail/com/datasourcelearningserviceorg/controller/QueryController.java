@@ -46,9 +46,4 @@ public class QueryController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
     }
-
-    @PostMapping("/login")
-    public String login(@RequestParam String tenantId, @RequestParam String username) {
-        return jwtProvider.generateJwtToken(tenantId);
-    }
 }

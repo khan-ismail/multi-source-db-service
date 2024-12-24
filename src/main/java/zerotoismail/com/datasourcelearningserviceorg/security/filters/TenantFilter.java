@@ -1,8 +1,8 @@
-package zerotoismail.com.datasourcelearningserviceorg.config.filters;
+package zerotoismail.com.datasourcelearningserviceorg.security.filters;
 
 import jakarta.servlet.*;
 import jakarta.servlet.http.HttpServletRequest;
-import zerotoismail.com.datasourcelearningserviceorg.config.TenantContext;
+import zerotoismail.com.datasourcelearningserviceorg.config.tenantConfig.TenantContext;
 import zerotoismail.com.datasourcelearningserviceorg.security.JwtProvider;
 
 import java.io.IOException;

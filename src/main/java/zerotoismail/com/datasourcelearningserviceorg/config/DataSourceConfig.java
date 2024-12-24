@@ -94,12 +94,11 @@ private static final Logger logger = LoggerFactory.getLogger(DataSourceConfig.cl
 package zerotoismail.com.datasourcelearningserviceorg.config;
 
 import com.zaxxer.hikari.HikariDataSource;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
+import zerotoismail.com.datasourcelearningserviceorg.config.tenantConfig.TenantRoutingDataSource;
 import zerotoismail.com.datasourcelearningserviceorg.service.ConnectionConfigService;
 
 import javax.sql.DataSource;

@@ -1,4 +1,4 @@
-package zerotoismail.com.datasourcelearningserviceorg.config;
+package zerotoismail.com.datasourcelearningserviceorg.config.tenantConfig;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource;

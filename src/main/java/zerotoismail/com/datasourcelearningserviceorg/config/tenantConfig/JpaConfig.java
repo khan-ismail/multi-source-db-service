@@ -1,4 +1,4 @@
-package zerotoismail.com.datasourcelearningserviceorg.config;
+package zerotoismail.com.datasourcelearningserviceorg.config.tenantConfig;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

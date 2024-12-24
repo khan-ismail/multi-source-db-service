@@ -1,4 +1,4 @@
-package zerotoismail.com.datasourcelearningserviceorg.config;
+package zerotoismail.com.datasourcelearningserviceorg.config.tenantConfig;
 public class TenantContext {
 
     private static final ThreadLocal<Long> currentTenant = new ThreadLocal<>();
