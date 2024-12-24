@@ -8,8 +8,6 @@ import zerotoismail.com.datasourcelearningserviceorg.model.ConnectionConfig;
 import zerotoismail.com.datasourcelearningserviceorg.model.MySQLConnectionDetails;
 import zerotoismail.com.datasourcelearningserviceorg.repository.ConnectionConfigRepository;
 
-import java.util.ArrayList;
-import java.util.List;
 
 @Service
 public class ConnectionConfigService {
