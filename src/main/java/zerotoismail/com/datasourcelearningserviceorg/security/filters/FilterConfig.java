@@ -18,7 +18,7 @@ public class FilterConfig {
     public FilterRegistrationBean<TenantFilter> tenantFilter() {
         FilterRegistrationBean<TenantFilter> registrationBean = new FilterRegistrationBean<>();
         registrationBean.setFilter(new TenantFilter(jwtProvider));
-        registrationBean.addUrlPatterns("/api/*");
+        registrationBean.addUrlPatterns("/api/v1/queries/*");
         return registrationBean;
     }
 }
