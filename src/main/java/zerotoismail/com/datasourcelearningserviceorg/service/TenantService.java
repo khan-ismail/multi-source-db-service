@@ -1,8 +1,6 @@
 package zerotoismail.com.datasourcelearningserviceorg.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import zerotoismail.com.datasourcelearningserviceorg.model.ConnectionConfig;
 import zerotoismail.com.datasourcelearningserviceorg.repository.ConnectionConfigRepository;
 
 import java.util.ArrayList;

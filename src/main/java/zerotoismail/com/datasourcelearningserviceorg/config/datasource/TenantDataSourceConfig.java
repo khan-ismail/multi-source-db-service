@@ -14,7 +14,7 @@ import javax.sql.DataSource;
 
 @Configuration
 @EnableJpaRepositories(
-        basePackages = "zerotoismail.com.datasourcelearningserviceorg.repository.tenantRepository",
+        basePackages = "zerotoismail.com.datasourcelearningserviceorg.multiTenancy.repository",
         entityManagerFactoryRef = "tenantEntityManagerFactory",
         transactionManagerRef = "tenantTransactionManager"
 )
@@ -25,7 +25,7 @@ public class TenantDataSourceConfig {
             EntityManagerFactoryBuilder builder, @Qualifier("tenantRoutingDataSource") DataSource dataSource) {
         return builder
                 .dataSource(dataSource)
-                .packages("zerotoismail.com.datasourcelearningserviceorg.model")
+                .packages("zerotoismail.com.datasourcelearningserviceorg.multiTenancy.model")
                 .persistenceUnit("tenantPU")
                 .build();
     }

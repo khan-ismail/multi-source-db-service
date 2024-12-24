@@ -1,17 +1,17 @@
 package zerotoismail.com.datasourcelearningserviceorg.model;
 
-
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Setter
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
 @Entity(name = "connection_config")
 public class ConnectionConfig {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -60,7 +60,6 @@ public class ConnectionConfig {
 
     @Column(name = "email_config", columnDefinition = "json")
     private String emailConfig;
-
 
     public Long getId() {
         return id;
