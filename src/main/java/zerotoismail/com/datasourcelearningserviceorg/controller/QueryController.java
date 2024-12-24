@@ -1,49 +1,50 @@
 package zerotoismail.com.datasourcelearningserviceorg.controller;
 
+import jakarta.websocket.server.PathParam;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import zerotoismail.com.datasourcelearningserviceorg.dto.QueryRequestDto;
+import zerotoismail.com.datasourcelearningserviceorg.dto.ResponseDto;
 import zerotoismail.com.datasourcelearningserviceorg.dto.User;
-import zerotoismail.com.datasourcelearningserviceorg.model.MySQLConnectionDetails;
 import zerotoismail.com.datasourcelearningserviceorg.security.JwtProvider;
-import zerotoismail.com.datasourcelearningserviceorg.service.ConnectionConfigService;
-import zerotoismail.com.datasourcelearningserviceorg.service.MyService;
+import zerotoismail.com.datasourcelearningserviceorg.service.QueryBuilderService;
+import zerotoismail.com.datasourcelearningserviceorg.utils.QueryUtils;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/v1/queries")
 public class QueryController {
 
     private final JwtProvider jwtProvider;
-    private ConnectionConfigService tenantQueryService;
-    private MyService myService;
+    private QueryBuilderService queryBuilderService;
 
-    public QueryController(ConnectionConfigService tenantQueryService, MyService myService, JwtProvider jwtProvider) {
-        this.tenantQueryService = tenantQueryService;
-        this.myService = myService;
+    public QueryController(QueryBuilderService queryBuilderService, JwtProvider jwtProvider) {
+        this.queryBuilderService = queryBuilderService;
         this.jwtProvider = jwtProvider;
     }
 
-    @RequestMapping("/execute/{id}")
-    public ResponseEntity<?> query(@PathVariable Long id) {
-
+    @PostMapping("/run")
+    public ResponseEntity<?> runQuery(@RequestBody QueryRequestDto queryDto) {
         try {
-            MySQLConnectionDetails connection = tenantQueryService.getTenantConnection(id);
-            return ResponseEntity.ok(connection);
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
-        }
-    }
 
-    @RequestMapping("/run/{id}")
-    public ResponseEntity<?> runQuery(@PathVariable Long id) {
+            String query = queryDto.getQuery();
 
-        try {
-            List<User> result = myService.executeQueryForTenant(id);
+            if (!QueryUtils.validateQuery(query)) {
+                return ResponseEntity
+                        .status(HttpStatus.BAD_REQUEST)
+                        .body(new ResponseDto(HttpStatus.BAD_REQUEST.toString(), "Only SELECT queries are allowed."));
+            }
+
+            List<User> result = queryBuilderService.executeQueryForTenant(query);
             return ResponseEntity.ok(result);
+
+
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+            return ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .body(new ResponseDto(HttpStatus.BAD_REQUEST.toString(), "Bad Request"));
         }
     }
 }

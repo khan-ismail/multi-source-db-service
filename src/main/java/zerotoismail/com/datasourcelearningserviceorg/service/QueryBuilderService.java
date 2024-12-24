@@ -9,18 +9,17 @@ import javax.sql.DataSource;
 import java.util.List;
 
 @Service
-public class MyService {
+public class QueryBuilderService {
 
     private final JdbcTemplate jdbcTemplate;
 
-    public MyService(@Qualifier("tenantRoutingDataSource") DataSource dataSource) {
+    public QueryBuilderService(@Qualifier("tenantRoutingDataSource") DataSource dataSource) {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
-    public List<User> executeQueryForTenant(Long tenantId) {
+    public List<User> executeQueryForTenant(String query) {
         System.out.println("Executing query for tenant " + jdbcTemplate);
-        String sql = "SELECT * FROM `User`";
-        return jdbcTemplate.query(sql, (rs, rowNum) -> {
+        return jdbcTemplate.query(query, (rs, rowNum) -> {
             User user = new User();
             user.setId(rs.getLong("id"));
             user.setName(rs.getString("name"));
