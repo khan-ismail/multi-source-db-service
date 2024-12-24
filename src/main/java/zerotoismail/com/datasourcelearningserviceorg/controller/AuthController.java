@@ -13,7 +13,7 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public String login(@RequestParam String tenantId, @RequestParam String role) {
-        return jwtProvider.generateJwtToken(tenantId, role);
+    public String login(@RequestParam String tenantId) {
+        return jwtProvider.generateJwtToken(tenantId);
     }
 }

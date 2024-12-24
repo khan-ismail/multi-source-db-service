@@ -7,8 +7,10 @@ import org.springframework.web.bind.annotation.*;
 import zerotoismail.com.datasourcelearningserviceorg.dto.QueryRequestDto;
 import zerotoismail.com.datasourcelearningserviceorg.dto.ResponseDto;
 import zerotoismail.com.datasourcelearningserviceorg.dto.User;
+import zerotoismail.com.datasourcelearningserviceorg.model.MySQLConnectionDetails;
 import zerotoismail.com.datasourcelearningserviceorg.multiTenancy.model.CurrentState;
 import zerotoismail.com.datasourcelearningserviceorg.security.JwtProvider;
+import zerotoismail.com.datasourcelearningserviceorg.service.ConnectionConfigService;
 import zerotoismail.com.datasourcelearningserviceorg.service.QueryBuilderService;
 import zerotoismail.com.datasourcelearningserviceorg.utils.QueryUtils;
 
@@ -22,10 +24,18 @@ public class QueryController {
 
     private final JwtProvider jwtProvider;
     private QueryBuilderService queryBuilderService;
+    private ConnectionConfigService connectionConfigService;
 
-    public QueryController(QueryBuilderService queryBuilderService, JwtProvider jwtProvider) {
+    public QueryController(QueryBuilderService queryBuilderService, JwtProvider jwtProvider, ConnectionConfigService connectionConfigService) {
         this.queryBuilderService = queryBuilderService;
         this.jwtProvider = jwtProvider;
+        this.connectionConfigService = connectionConfigService;
+    }
+
+    @PostMapping("/url/{id}")
+    public ResponseEntity<?> getUrlConnection(@PathVariable Long id) {
+        MySQLConnectionDetails query = connectionConfigService.getTenantConnection(id);
+        return new ResponseEntity<>(query, HttpStatus.OK);
     }
 
     @PostMapping("/run")

@@ -43,10 +43,9 @@ public class JwtProvider {
                 .getSubject();
     }
 
-    public String generateJwtToken(String tenantId, String role) {
+    public String generateJwtToken(String tenantId) {
         return Jwts.builder()
                 .subject(tenantId)
-                .subject(role)
                 .issuedAt(new Date())
                 .expiration(new Date((new Date()).getTime() + expirationTime))
                 .signWith(getSigningKey())
